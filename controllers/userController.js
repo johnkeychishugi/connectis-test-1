@@ -2,6 +2,10 @@ import User from '../models/user';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import Message from '../models/message';
+
+const messages =  Message.Messages;
+
 dotenv.config();
 
 const users =  User.Users;
@@ -89,7 +93,14 @@ const sendToken = (user,res,status,msg) =>{
         expiresIn : '2h'
       }
     );
-    return res.render('home',{ layout:'landing' });
+    messages.findAll().then(response =>{
+      return res.render('home',
+      {
+        messages: response,
+         layout:'landing' 
+      });
+      
+  });  
   }
 
 export default userController;
